@@ -22,11 +22,12 @@ public class PuzzleOne : MonoBehaviour {
 
     void Update() { // Opens de first door. Maybe add screenshake later?
         if (planetOneInPlace && planetTwoInPlace && planetThreeInPlace && planetFourInPlace) {
+            Debug.Log("Opening Doors");
             doorLeft.transform.rotation = Quaternion.Slerp(doorLeft.transform.rotation, 
-                                                           doorLeftOpenRotation.rotation,
+                                                           Quaternion.Euler(-35, 90, -90),
                                                            Time.deltaTime * openingSpeed);
             doorRight.transform.rotation = Quaternion.Slerp(doorRight.transform.rotation,
-                                                            doorRightOpenRotation.rotation,
+                                                            Quaternion.Euler(35, 90, -90),
                                                             Time.deltaTime * openingSpeed);
         }
     }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleManager : MonoBehaviour
-{
+public class PuzzleManager : MonoBehaviour {
+
     GameManager manager;
     
     Transform EightiesRespawn;
@@ -22,8 +22,10 @@ public class PuzzleManager : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         // SOLAR SYSTEM PUZZLE
-        if (this.name == "Planet 1 Collider" && other.name == "Planet 1")
+        if (this.name == "Planet 1 Collider" && other.name == "Planet 1"){
             PuzzleOne.planetOneInPlace = true;
+            Debug.Log("Planet 1 in place");
+        }
 
         if (this.name == "Planet 2 Collider" && other.name == "Planet 2")
             PuzzleOne.planetTwoInPlace = true;
@@ -35,9 +37,12 @@ public class PuzzleManager : MonoBehaviour
             PuzzleOne.planetFourInPlace = true;
 
         // 80'S PUZZLE
-        if (this.name == "80's Finish" && other.CompareTag("Player")) {
+        if (this.name == "box" && other.CompareTag("Player")) {
             other.transform.position = EightiesRespawn.position;
             Debug.Log("PUZZLE 1 COMPLETE");
+            manager.currentPlanetSlate = manager.planetPosPaper2;
+            manager.currentPlanetSlate.SetActive(true);
+
             manager.solarPuzzleEighties.SetActive(false);
             manager.solarSolutionEighties.SetActive(false);
             manager.solarPuzzleMedieval.SetActive(true);
@@ -50,15 +55,10 @@ public class PuzzleManager : MonoBehaviour
             other.transform.position = MedievalRespawn.position;
         }
 
-    }
-
-    void OnTriggerStay(Collider other) {        // Gets called every frame, so try per planet.
-
-    }
+    } 
 
     void OnCollisionEnter(Collision other) {
         if (this.name == "Normal Tile" && other.transform.CompareTag("Player")) {
-            // Put player back?
             other.transform.position = EightiesRespawn.position;
         }
     }

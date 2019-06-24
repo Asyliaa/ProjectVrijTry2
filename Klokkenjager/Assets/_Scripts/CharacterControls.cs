@@ -62,18 +62,6 @@ public class CharacterControls : MonoBehaviour {
             else {
                 vpManager.victorianLockOn = false;
             }
-
-            if (hit.collider.CompareTag("Box")) {
-                Debug.Log("DOOS");
-                eToInteract.SetActive(true);
-                if (Input.GetKeyDown("e")) {
-                    hit.collider.transform.gameObject.SetActive(false);
-                    powerbar.RemoveAt(0);
-                }
-            }
-            else {
-                eToInteract.SetActive(false);
-            }
         }
 
     }

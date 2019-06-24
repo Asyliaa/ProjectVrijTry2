@@ -31,9 +31,11 @@ public class SolarSystemManager : MonoBehaviour {
 
     private CharacterControls playerController;
     private GameObject player;
+
     private bool solarSystemActive;
     private bool solarControls;
     private bool ranOnce;
+
     private int planetSelection;
     private int planetRotationSelection;
     private int currentPlanetRotation1;
@@ -59,7 +61,8 @@ public class SolarSystemManager : MonoBehaviour {
     }
 
     void Update() {
-        if (solarSystemActive && solarControls){
+        #region planet rotation
+        if (solarSystemActive && solarControls) {
             if (planetSelection == 0) {
                 GameObject planet = GameObject.Find("Planet 1");
                 planet.transform.GetChild(1).GetComponent<Renderer>().material = outlineMat; // change selection material for  selected planet.
@@ -96,7 +99,7 @@ public class SolarSystemManager : MonoBehaviour {
                 }
             }
             else {
-                GameObject.Find("Planet 1").transform.GetChild(1).GetComponent<Renderer>().material = planetTwoMat;
+                GameObject.Find("Planet 1").transform.GetChild(1).GetComponent<Renderer>().material = planetOneMat;
             }
 
             if (planetSelection == 1) {
@@ -108,9 +111,9 @@ public class SolarSystemManager : MonoBehaviour {
                     ranOnce = true;
                 }
 
-                if (planetRotationSelection == 0){
-                    planet.transform.rotation = Quaternion.Slerp(planet.transform.rotation, 
-                                                                 planetRotations[0].rotation, 
+                if (planetRotationSelection == 0) {
+                    planet.transform.rotation = Quaternion.Slerp(planet.transform.rotation,
+                                                                 planetRotations[0].rotation,
                                                                  Time.deltaTime * rotationSpeed);
                     currentPlanetRotation2 = planetRotationSelection;
                 }
@@ -148,8 +151,8 @@ public class SolarSystemManager : MonoBehaviour {
                 }
 
                 if (planetRotationSelection == 0) {
-                    planet.transform.rotation = Quaternion.Slerp(planet.transform.rotation, 
-                                                                 planetRotations[0].rotation, 
+                    planet.transform.rotation = Quaternion.Slerp(planet.transform.rotation,
+                                                                 planetRotations[0].rotation,
                                                                  Time.deltaTime * rotationSpeed);
                     currentPlanetRotation3 = planetRotationSelection;
                 }
@@ -189,8 +192,8 @@ public class SolarSystemManager : MonoBehaviour {
                 }
 
                 if (planetRotationSelection == 0) {
-                    planet.transform.rotation = Quaternion.Slerp(planet.transform.rotation, 
-                                                                 planetRotations[0].rotation, 
+                    planet.transform.rotation = Quaternion.Slerp(planet.transform.rotation,
+                                                                 planetRotations[0].rotation,
                                                                  Time.deltaTime * rotationSpeed);
                     currentPlanetRotation4 = planetRotationSelection;
                 }
@@ -219,7 +222,8 @@ public class SolarSystemManager : MonoBehaviour {
             else {
                 GameObject.Find("Planet 4").transform.GetChild(1).GetComponent<Renderer>().material = planetFourMat;
             }
-
+            #endregion
+            #region planet controls
             if (Input.GetKeyDown("w")) {
                 planetSelection += 1;
                 ranOnce = false;
@@ -228,35 +232,41 @@ public class SolarSystemManager : MonoBehaviour {
                 planetSelection -= 1;
                 ranOnce = false;
             }
-            if (planetSelection >= 4) planetSelection = 0;
-            if (planetSelection <= -1) planetSelection = 3;
+            if (planetSelection >= 4)
+                planetSelection = 0;
+            if (planetSelection <= -1)
+                planetSelection = 3;
 
-            if (Input.GetKeyDown("d")) planetRotationSelection += 1;
-            if (Input.GetKeyDown("a")) planetRotationSelection -= 1;
-            if (planetRotationSelection >= 4) planetRotationSelection = 0;
-            if (planetRotationSelection <= -1) planetRotationSelection = 3;
+            if (Input.GetKeyDown("d"))
+                planetRotationSelection += 1;
+            if (Input.GetKeyDown("a"))
+                planetRotationSelection -= 1;
+            if (planetRotationSelection >= 4)
+                planetRotationSelection = 0;
+            if (planetRotationSelection <= -1)
+                planetRotationSelection = 3;
         }
-            
+        #endregion
     }
 
     // Update is called once per frame
     void LateUpdate() {
         var CameraFollowScript = cameraBase.GetComponent<CameraFollow>();
-        if (lockOnSolarSystem && !cameraInPosition){
+        if (lockOnSolarSystem && !cameraInPosition) {
             eToInteract.SetActive(true);
             if (Input.GetKeyDown("e")) {
 
                 playerController.enabled = false;
                 player.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 solarControls = true;
-               
+
                 solarCamera.enabled = !solarCamera.enabled;
                 cameraBase.SetActive(false);
 
                 cameraInPosition = true;
 
                 Cursor.lockState = CursorLockMode.None;
-		        Cursor.visible = true;
+                Cursor.visible = true;
 
                 solarSystemActive = true;
             }
